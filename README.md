@@ -95,6 +95,6 @@ The quiz was used as an interactive conversation opener, connecting visitors wit
 
 ## 🙋 Author
 
-**[Minyoung Suk]**
+**Minyoung Suk**
 
 -----
