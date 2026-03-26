@@ -95,9 +95,7 @@ The quiz was used as an interactive conversation opener, connecting visitors wit
 
 ## 🙋 Author
 
-**[Your Name]**
-UTM — [Your Program], [Your Year]
-[LinkedIn URL] • [Email]
+**[Minyoung Suk]**
 
 -----
 
