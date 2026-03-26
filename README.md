@@ -2,7 +2,7 @@
 
 > An interactive career field classifier built for the **UTM CC100 Reverse Career Fair** — March 26, 2026.
 
-![Quiz Demo](https://img.shields.io/badge/Built%20For-UTM%20CC100-blue?style=flat-square) ![HTML](https://img.shields.io/badge/Tech-HTML%2FCS%2FJS-yellow?style=flat-square) ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+![Quiz Demo](https://img.shields.io/badge/Built%20For-UTM%20CC100-blue?style=flat-square) ![HTML](https://img.shields.io/badge/Tech-HTML%2FCS%2FJS-yellow?style=flat-square)
 
 -----
 
@@ -98,7 +98,3 @@ The quiz was used as an interactive conversation opener, connecting visitors wit
 **[Minyoung Suk]**
 
 -----
-
-## 📄 License
-
-MIT License — free to use, adapt, and build on.
