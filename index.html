@@ -31,8 +31,8 @@
       }
 
       body {
-        background: var(–bg);
-        color: var(–white);
+        background: var(--bg);
+        color: var(--white);
         font-family: ‘Archivo’, sans-serif;
         min-height: 100vh;
         display: flex;
@@ -107,7 +107,7 @@
       /* –– INTRO SCREEN –– */
       .intro-badge {
         display: inline-block;
-        background: var(–yellow);
+        background: var(--yellow);
         color: #0a0a0f;
         font-family:
           ‘Space Mono’,
@@ -132,19 +132,19 @@
       }
 
       .intro-title .line1 {
-        color: var(–white);
+        color: var(--white);
         display: block;
       }
       .intro-title .line2 {
         display: block;
-        background: linear-gradient(90deg, var(–cyan), var(–pink));
+        background: linear-gradient(90deg, var(--cyan), var(--pink));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
 
       .intro-subtitle {
-        color: var(–muted);
+        color: var(--muted);
         font-size: 15px;
         margin: 20px 0 36px;
         line-height: 1.6;
@@ -152,7 +152,7 @@
       }
 
       .intro-subtitle strong {
-        color: var(–cyan);
+        color: var(--cyan);
         font-weight: 600;
       }
 
@@ -160,7 +160,7 @@
         display: inline-flex;
         align-items: center;
         gap: 10px;
-        background: var(–yellow);
+        background: var(--yellow);
         color: #0a0a0f;
         font-family:
           ‘Archivo Black’,
@@ -179,7 +179,7 @@
 
       .btn-primary:hover {
         transform: translate(-3px, -3px);
-        box-shadow: 6px 6px 0 var(–pink);
+        box-shadow: 6px 6px 0 var(--pink);
       }
       .btn-primary:active {
         transform: translate(0, 0);
@@ -191,7 +191,7 @@
         gap: 32px;
         margin-top: 48px;
         padding-top: 32px;
-        border-top: 1px solid var(–border);
+        border-top: 1px solid var(--border);
       }
 
       .stat-item {
@@ -203,11 +203,11 @@
           monospace;
         font-size: 28px;
         font-weight: 700;
-        color: var(–cyan);
+        color: var(--cyan);
       }
       .stat-label {
         font-size: 12px;
-        color: var(–muted);
+        color: var(--muted);
         margin-top: 2px;
         letter-spacing: 0.5px;
       }
@@ -225,16 +225,16 @@
           ‘Space Mono’,
           monospace;
         font-size: 13px;
-        color: var(–muted);
+        color: var(--muted);
       }
       .q-counter span {
-        color: var(–yellow);
+        color: var(--yellow);
         font-weight: 700;
       }
 
       .progress-bar {
         height: 3px;
-        background: var(–border);
+        background: var(--border);
         border-radius: 2px;
         margin-bottom: 40px;
         overflow: hidden;
@@ -242,7 +242,7 @@
 
       .progress-fill {
         height: 100%;
-        background: linear-gradient(90deg, var(–cyan), var(–pink));
+        background: linear-gradient(90deg, var(--cyan), var(--pink));
         border-radius: 2px;
         transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       }
@@ -264,9 +264,9 @@
       }
 
       .option-btn {
-        background: var(–card);
-        border: 1.5px solid var(–border);
-        color: var(–white);
+        background: var(--card);
+        border: 1.5px solid var(--border);
+        color: var(--white);
         font-family: ‘Archivo’, sans-serif;
         font-size: 14px;
         font-weight: 600;
@@ -289,16 +289,16 @@
       }
 
       .option-btn:hover {
-        border-color: var(–cyan);
-        color: var(–cyan);
+        border-color: var(--cyan);
+        color: var(--cyan);
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(0, 240, 255, 0.12);
       }
 
       .option-btn.selected {
-        border-color: var(–yellow);
+        border-color: var(--yellow);
         background: rgba(245, 230, 66, 0.08);
-        color: var(–yellow);
+        color: var(--yellow);
       }
 
       .option-letter {
@@ -307,8 +307,8 @@
           ‘Space Mono’,
           monospace;
         font-size: 11px;
-        background: var(–border);
-        color: var(–muted);
+        background: var(--border);
+        color: var(--muted);
         padding: 2px 6px;
         border-radius: 2px;
         margin-right: 8px;
@@ -316,7 +316,7 @@
       }
       .option-btn:hover .option-letter,
       .option-btn.selected .option-letter {
-        background: var(–yellow);
+        background: var(--yellow);
         color: #0a0a0f;
       }
 
@@ -328,8 +328,8 @@
 
       .btn-next {
         background: transparent;
-        border: 1.5px solid var(–border);
-        color: var(–muted);
+        border: 1.5px solid var(--border);
+        color: var(--muted);
         font-family:
           ‘Archivo Black’,
           sans-serif;
@@ -343,13 +343,13 @@
       }
 
       .btn-next.ready {
-        border-color: var(–green);
-        color: var(–green);
+        border-color: var(--green);
+        color: var(--green);
         box-shadow: 0 0 20px rgba(42, 255, 160, 0.15);
       }
 
       .btn-next.ready:hover {
-        background: var(–green);
+        background: var(--green);
         color: #0a0a0f;
         transform: translate(-2px, -2px);
         box-shadow: 4px 4px 0 rgba(42, 255, 160, 0.4);
@@ -386,7 +386,7 @@
       }
 
       .thinking-sub {
-        color: var(–muted);
+        color: var(--muted);
         font-size: 14px;
       }
 
@@ -399,17 +399,17 @@
       .dot {
         width: 10px;
         height: 10px;
-        background: var(–cyan);
+        background: var(--cyan);
         border-radius: 50%;
         animation: dotPulse 1.2s ease infinite;
       }
       .dot:nth-child(2) {
         animation-delay: 0.2s;
-        background: var(–pink);
+        background: var(--pink);
       }
       .dot:nth-child(3) {
         animation-delay: 0.4s;
-        background: var(–yellow);
+        background: var(--yellow);
       }
 
       @keyframes dotPulse {
@@ -431,7 +431,7 @@
           ‘Space Mono’,
           monospace;
         font-size: 11px;
-        color: var(–muted);
+        color: var(--muted);
         letter-spacing: 3px;
         text-transform: uppercase;
         margin-bottom: 12px;
@@ -460,8 +460,8 @@
       }
 
       .result-card {
-        background: var(–card);
-        border: 1.5px solid var(–border);
+        background: var(--card);
+        border: 1.5px solid var(--border);
         border-radius: 8px;
         padding: 20px;
       }
@@ -473,7 +473,7 @@
         font-size: 10px;
         letter-spacing: 2px;
         text-transform: uppercase;
-        color: var(–muted);
+        color: var(--muted);
         margin-bottom: 10px;
       }
 
@@ -486,8 +486,8 @@
       }
 
       .result-companies {
-        background: var(–card);
-        border: 1.5px solid var(–border);
+        background: var(--card);
+        border: 1.5px solid var(--border);
         border-radius: 8px;
         padding: 20px;
         margin-bottom: 28px;
@@ -500,7 +500,7 @@
         font-size: 10px;
         letter-spacing: 2px;
         text-transform: uppercase;
-        color: var(–muted);
+        color: var(--muted);
         margin-bottom: 14px;
       }
 
@@ -527,8 +527,8 @@
       .btn-retry {
         flex: 1;
         background: transparent;
-        border: 1.5px solid var(–border);
-        color: var(–muted);
+        border: 1.5px solid var(--border);
+        color: var(--muted);
         font-family:
           ‘Archivo Black’,
           sans-serif;
@@ -542,15 +542,15 @@
       }
 
       .btn-retry:hover {
-        border-color: var(–white);
-        color: var(–white);
+        border-color: var(--white);
+        color: var(--white);
       }
 
       .btn-share {
         flex: 2;
-        background: var(–pink);
+        background: var(--pink);
         border: none;
-        color: var(–white);
+        color: var(--white);
         font-family:
           ‘Archivo Black’,
           sans-serif;
@@ -579,12 +579,12 @@
           ‘Space Mono’,
           monospace;
         font-size: 11px;
-        color: var(–muted);
+        color: var(--muted);
         margin-bottom: 6px;
       }
       .accuracy-track {
         height: 6px;
-        background: var(–border);
+        background: var(--border);
         border-radius: 3px;
         overflow: hidden;
       }
