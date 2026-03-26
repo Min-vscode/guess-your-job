@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I'll Guess Your Job 🎯</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0a0f;
+        --card: #12121a;
+        --border: #2a2a3a;
+        --yellow: #f5e642;
+        --cyan: #00f0ff;
+        --pink: #ff2d78;
+        --orange: #ff7c2a;
+        --green: #2affa0;
+        --purple: #b06aff;
+        --white: #f0f0ff;
+        --muted: #6a6a88;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(–bg);
+        color: var(–white);
+        font-family: ‘Archivo’, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* Animated grid background */
+      body::before {
+        content: ‘’;
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        animation: gridMove 20s linear infinite;
+        pointer-events: none;
+      }
+
+      body::after {
+        content: ‘’;
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 80% 60% at 50% 50%,
+          rgba(176, 106, 255, 0.06) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+
+      @keyframes gridMove {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(40px);
+        }
+      }
+
+      .container {
+        width: 100%;
+        max-width: 680px;
+        padding: 24px;
+        position: relative;
+        z-index: 10;
+      }
+
+      /* SCREEN MANAGEMENT */
+      .screen {
+        display: none;
+        animation: fadeUp 0.4s ease forwards;
+      }
+      .screen.active {
+        display: block;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* –– INTRO SCREEN –– */
+      .intro-badge {
+        display: inline-block;
+        background: var(–yellow);
+        color: #0a0a0f;
+        font-family:
+          ‘Space Mono’,
+          monospace;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        padding: 6px 14px;
+        border-radius: 2px;
+        margin-bottom: 24px;
+        text-transform: uppercase;
+      }
+
+      .intro-title {
+        font-family:
+          ‘Archivo Black’,
+          sans-serif;
+        font-size: clamp(48px, 9vw, 80px);
+        line-height: 0.95;
+        letter-spacing: -2px;
+        margin-bottom: 8px;
+      }
+
+      .intro-title .line1 {
+        color: var(–white);
+        display: block;
+      }
+      .intro-title .line2 {
+        display: block;
+        background: linear-gradient(90deg, var(–cyan), var(–pink));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .intro-subtitle {
+        color: var(–muted);
+        font-size: 15px;
+        margin: 20px 0 36px;
+        line-height: 1.6;
+        max-width: 440px;
+      }
+
+      .intro-subtitle strong {
+        color: var(–cyan);
+        font-weight: 600;
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(–yellow);
+        color: #0a0a0f;
+        font-family:
+          ‘Archivo Black’,
+          sans-serif;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        padding: 18px 36px;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s;
+        text-transform: uppercase;
+      }
+
+      .btn-primary:hover {
+        transform: translate(-3px, -3px);
+        box-shadow: 6px 6px 0 var(–pink);
+      }
+      .btn-primary:active {
+        transform: translate(0, 0);
+        box-shadow: none;
+      }
+
+      .intro-stats {
+        display: flex;
+        gap: 32px;
+        margin-top: 48px;
+        padding-top: 32px;
+        border-top: 1px solid var(–border);
+      }
+
+      .stat-item {
+        text-align: left;
+      }
+      .stat-num {
+        font-family:
+          ‘Space Mono’,
+          monospace;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(–cyan);
+      }
+      .stat-label {
+        font-size: 12px;
+        color: var(–muted);
+        margin-top: 2px;
+        letter-spacing: 0.5px;
+      }
+
+      /* –– QUIZ SCREEN –– */
+      .quiz-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 32px;
+      }
+
+      .q-counter {
+        font-family:
+          ‘Space Mono’,
+          monospace;
+        font-size: 13px;
+        color: var(–muted);
+      }
+      .q-counter span {
+        color: var(–yellow);
+        font-weight: 700;
+      }
+
+      .progress-bar {
+        height: 3px;
+        background: var(–border);
+        border-radius: 2px;
+        margin-bottom: 40px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(–cyan), var(–pink));
+        border-radius: 2px;
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .question-text {
+        font-family:
+          ‘Archivo Black’,
+          sans-serif;
+        font-size: clamp(22px, 4vw, 32px);
+        line-height: 1.2;
+        margin-bottom: 32px;
+        letter-spacing: -0.5px;
+      }
+
+      .options-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .option-btn {
+        background: var(–card);
+        border: 1.5px solid var(–border);
+        color: var(–white);
+        font-family: ‘Archivo’, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 18px 16px;
+        cursor: pointer;
+        border-radius: 6px;
+        text-align: left;
+        transition: all 0.15s;
+        line-height: 1.4;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .option-btn::before {
+        content: ‘’;
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+
+      .option-btn:hover {
+        border-color: var(–cyan);
+        color: var(–cyan);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 240, 255, 0.12);
+      }
+
+      .option-btn.selected {
+        border-color: var(–yellow);
+        background: rgba(245, 230, 66, 0.08);
+        color: var(–yellow);
+      }
+
+      .option-letter {
+        display: inline-block;
+        font-family:
+          ‘Space Mono’,
+          monospace;
+        font-size: 11px;
+        background: var(–border);
+        color: var(–muted);
+        padding: 2px 6px;
+        border-radius: 2px;
+        margin-right: 8px;
+        transition: all 0.15s;
+      }
+      .option-btn:hover .option-letter,
+      .option-btn.selected .option-letter {
+        background: var(–yellow);
+        color: #0a0a0f;
+      }
+
+      .quiz-footer {
+        margin-top: 32px;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .btn-next {
+        background: transparent;
+        border: 1.5px solid var(–border);
+        color: var(–muted);
+        font-family:
+          ‘Archivo Black’,
+          sans-serif;
+        font-size: 13px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 14px 28px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+
+      .btn-next.ready {
+        border-color: var(–green);
+        color: var(–green);
+        box-shadow: 0 0 20px rgba(42, 255, 160, 0.15);
+      }
+
+      .btn-next.ready:hover {
+        background: var(–green);
+        color: #0a0a0f;
+        transform: translate(-2px, -2px);
+        box-shadow: 4px 4px 0 rgba(42, 255, 160, 0.4);
+      }
+
+      /* –– THINKING SCREEN –– */
+      #thinkingScreen {
+        text-align: center;
+        padding: 60px 20px;
+      }
+
+      .thinking-icon {
+        font-size: 64px;
+        display: block;
+        margin-bottom: 24px;
+        animation: bounce 0.6s ease infinite alternate;
+      }
+
+      @keyframes bounce {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-12px);
+        }
+      }
+
+      .thinking-title {
+        font-family:
+          ‘Archivo Black’,
+          sans-serif;
+        font-size: 28px;
+        margin-bottom: 12px;
+      }
+
+      .thinking-sub {
+        color: var(–muted);
+        font-size: 14px;
+      }
+
+      .dots {
+        display: inline-flex;
+        gap: 8px;
+        margin-top: 32px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        background: var(–cyan);
+        border-radius: 50%;
+        animation: dotPulse 1.2s ease infinite;
+      }
+      .dot:nth-child(2) {
+        animation-delay: 0.2s;
+        background: var(–pink);
+      }
+      .dot:nth-child(3) {
+        animation-delay: 0.4s;
+        background: var(–yellow);
+      }
+
+      @keyframes dotPulse {
+        0%,
+        60%,
+        100% {
+          transform: scale(1);
+          opacity: 0.4;
+        }
+        30% {
+          transform: scale(1.5);
+          opacity: 1;
+        }
+      }
+
+      /* –– RESULT SCREEN –– */
+      .result-eyebrow {
+        font-family:
+          ‘Space Mono’,
+          monospace;
+        font-size: 11px;
+        color: var(–muted);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      .result-verdict {
+        font-family:
+          ‘Archivo Black’,
+          sans-serif;
+        font-size: clamp(36px, 7vw, 60px);
+        line-height: 1;
+        letter-spacing: -1.5px;
+        margin-bottom: 4px;
+      }
+
+      .result-field-name {
+        display: inline-block;
+        padding: 4px 0;
+      }
+
+      .result-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin: 28px 0;
+      }
+
+      .result-card {
+        background: var(–card);
+        border: 1.5px solid var(–border);
+        border-radius: 8px;
+        padding: 20px;
+      }
+
+      .result-card-label {
+        font-family:
+          ‘Space Mono’,
+          monospace;
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(–muted);
+        margin-bottom: 10px;
+      }
+
+      .result-card-value {
+        font-family:
+          ‘Archivo Black’,
+          sans-serif;
+        font-size: 15px;
+        line-height: 1.3;
+      }
+
+      .result-companies {
+        background: var(–card);
+        border: 1.5px solid var(–border);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 28px;
+      }
+
+      .result-companies-label {
+        font-family:
+          ‘Space Mono’,
+          monospace;
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(–muted);
+        margin-bottom: 14px;
+      }
+
+      .company-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .company-tag {
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 3px;
+        border: 1.5px solid;
+      }
+
+      .result-cta {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .btn-retry {
+        flex: 1;
+        background: transparent;
+        border: 1.5px solid var(–border);
+        color: var(–muted);
+        font-family:
+          ‘Archivo Black’,
+          sans-serif;
+        font-size: 13px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 16px 24px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+
+      .btn-retry:hover {
+        border-color: var(–white);
+        color: var(–white);
+      }
+
+      .btn-share {
+        flex: 2;
+        background: var(–pink);
+        border: none;
+        color: var(–white);
+        font-family:
+          ‘Archivo Black’,
+          sans-serif;
+        font-size: 13px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 16px 24px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s;
+      }
+
+      .btn-share:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 4px 4px 0 rgba(255, 45, 120, 0.35);
+      }
+
+      /* Accuracy meter */
+      .accuracy-bar-wrap {
+        margin: 20px 0 24px;
+      }
+      .accuracy-label {
+        display: flex;
+        justify-content: space-between;
+        font-family:
+          ‘Space Mono’,
+          monospace;
+        font-size: 11px;
+        color: var(–muted);
+        margin-bottom: 6px;
+      }
+      .accuracy-track {
+        height: 6px;
+        background: var(–border);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .accuracy-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+        width: 0%;
+      }
+
+      /* Confetti */
+      .confetti-piece {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        pointer-events: none;
+        z-index: 999;
+        animation: confettiFall linear forwards;
+      }
+
+      @keyframes confettiFall {
+        0% {
+          transform: translateY(-20px) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .options-grid {
+          grid-template-columns: 1fr;
+        }
+        .result-cards {
+          grid-template-columns: 1fr;
+        }
+        .intro-stats {
+          gap: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- INTRO SCREEN -->
+
+      <div id="introScreen" class="screen active">
+        <div class="intro-badge">🎯 Career Fair Edition</div>
+        <h1 class="intro-title">
+          <span class="line1">I'LL GUESS</span>
+          <span class="line2">YOUR JOB.</span>
+        </h1>
+        <p class="intro-subtitle">
+          Answer <strong>5 quick questions</strong> and I'll predict your field
+          & personality type using data pattern matching. Built by a
+          <strong>Business & Data Analyst</strong> — let's see if the model is
+          right.
+        </p>
+        <button class="btn-primary" onclick="startQuiz()">Let's go ⚡</button>
+        <div class="intro-stats">
+          <div class="stat-item">
+            <div class="stat-num">5</div>
+            <div class="stat-label">Questions</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">7</div>
+            <div class="stat-label">Fields Detected</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">~60s</div>
+            <div class="stat-label">To Complete</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUIZ SCREEN -->
+
+      <div id="quizScreen" class="screen">
+        <div class="quiz-header">
+          <div class="q-counter">Question <span id="qNum">1</span> of 5</div>
+          <div
+            class="q-counter"
+            id="qCategory"
+            style="color: var(--pink)"
+          ></div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        <div class="question-text" id="questionText"></div>
+        <div class="options-grid" id="optionsGrid"></div>
+        <div class="quiz-footer">
+          <button
+            class="btn-next"
+            id="nextBtn"
+            onclick="nextQuestion()"
+            disabled
+          >
+            Next →
+          </button>
+        </div>
+      </div>
+
+      <!-- THINKING SCREEN -->
+
+      <div id="thinkingScreen" class="screen">
+        <span class="thinking-icon">🧠</span>
+        <div class="thinking-title">Analyzing your profile...</div>
+        <div class="thinking-sub">
+          Running pattern recognition on your answers
+        </div>
+        <div class="dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+
+      <!-- RESULT SCREEN -->
+
+      <div id="resultScreen" class="screen">
+        <div class="result-eyebrow">MY PREDICTION</div>
+        <div class="result-verdict">
+          You're in <span class="result-field-name" id="resultField"></span>
+        </div>
+
+        ```
+        <div class="accuracy-bar-wrap">
+          <div class="accuracy-label">
+            <span>Confidence Score</span>
+            <span id="accuracyPct">—</span>
+          </div>
+          <div class="accuracy-track">
+            <div class="accuracy-fill" id="accuracyFill"></div>
+          </div>
+        </div>
+
+        <div class="result-cards">
+          <div class="result-card">
+            <div class="result-card-label">🧬 Personality Type</div>
+            <div class="result-card-value" id="resultPersonality"></div>
+          </div>
+          <div class="result-card">
+            <div class="result-card-label">⚡ Your Superpower</div>
+            <div class="result-card-value" id="resultSuperpower"></div>
+          </div>
+        </div>
+
+        <div class="result-companies">
+          <div class="result-companies-label">
+            🏢 Employers at this fair hiring for your field
+          </div>
+          <div class="company-tags" id="resultCompanies"></div>
+        </div>
+
+        <div class="result-cta">
+          <button class="btn-retry" onclick="resetQuiz()">↺ Try Again</button>
+          <button class="btn-share" onclick="shareResult()">
+            Share Your Result 🔥
+          </button>
+        </div>
+        ```
+      </div>
+    </div>
+
+    <script>
+      const QUESTIONS = [
+        {
+          text: "A project just hit a major roadblock. What's your first instinct?",
+          category: 'PROBLEM SOLVING',
+          options: [
+            {
+              label: 'Pull the data and find the root cause',
+              fields: { tech: 2, finance: 2, consulting: 1, healthcare: 1 },
+            },
+            {
+              label: 'Call a meeting and align the team',
+              fields: { hr: 3, consulting: 2, sales: 1 },
+            },
+            {
+              label: 'Identify the risk and build a workaround',
+              fields: { engineering: 3, finance: 2, consulting: 1 },
+            },
+            {
+              label: 'Talk to the client or stakeholder first',
+              fields: { sales: 3, consulting: 2, hr: 1 },
+            },
+          ],
+        },
+        {
+          text: "Pick the environment you'd actually thrive in:",
+          category: 'WORK STYLE',
+          options: [
+            {
+              label:
+                'Deep focus, headphones in, solving complex problems alone',
+              fields: { tech: 3, finance: 2, engineering: 2 },
+            },
+            {
+              label: 'Whiteboards, brainstorms, fast-moving teams',
+              fields: { consulting: 3, sales: 2, hr: 1 },
+            },
+            {
+              label: 'Structured routines with clear compliance and accuracy',
+              fields: { finance: 3, healthcare: 2, engineering: 1 },
+            },
+            {
+              label: 'People-first, helping others navigate challenges',
+              fields: { hr: 3, healthcare: 3, sales: 1 },
+            },
+          ],
+        },
+        {
+          text: "You've just been handed a massive spreadsheet of messy data. You:",
+          category: 'DATA MINDSET',
+          options: [
+            {
+              label: "Get excited — there's a story hiding in here",
+              fields: { tech: 3, finance: 2, consulting: 2 },
+            },
+            {
+              label: 'Immediately build a framework to clean & structure it',
+              fields: { engineering: 3, finance: 2, tech: 1 },
+            },
+            {
+              label: 'Look for patterns that could predict future outcomes',
+              fields: { finance: 3, healthcare: 2, tech: 2 },
+            },
+            {
+              label: 'Think about how to present the insights to leadership',
+              fields: { consulting: 3, sales: 2, hr: 1 },
+            },
+          ],
+        },
+        {
+          text: 'Your dream win at work looks like:',
+          category: 'MOTIVATION',
+          options: [
+            {
+              label: 'Shipping a product that millions of people use',
+              fields: { tech: 4, engineering: 2 },
+            },
+            {
+              label: 'Closing a deal or landing a new client',
+              fields: { sales: 4, consulting: 2 },
+            },
+            {
+              label: 'A flawless audit, forecast, or risk report',
+              fields: { finance: 4, consulting: 1 },
+            },
+            {
+              label: 'A team or person reaching their full potential',
+              fields: { hr: 4, healthcare: 2 },
+            },
+          ],
+        },
+        {
+          text: "At a networking event, people most often say you're:",
+          category: 'PERSONALITY',
+          options: [
+            {
+              label: 'The analytical one who asks sharp questions',
+              fields: { tech: 2, finance: 2, consulting: 3 },
+            },
+            {
+              label: 'The connector who knows everyone in the room',
+              fields: { sales: 3, hr: 2, consulting: 1 },
+            },
+            {
+              label: 'The detail-oriented one who catches things others miss',
+              fields: { engineering: 3, finance: 3, healthcare: 1 },
+            },
+            {
+              label: 'The empathetic one who listens and advises',
+              fields: { hr: 3, healthcare: 3, consulting: 1 },
+            },
+          ],
+        },
+      ];
+
+      const FIELDS = {
+        tech: {
+          name: 'Tech / Software',
+          color: '#00f0ff',
+          emoji: '💻',
+          personality:
+            'The Architect — you see systems where others see chaos.',
+          superpower: 'Pattern recognition at machine speed',
+          companies: [
+            { name: 'Veeva Systems', color: '#00f0ff' },
+            { name: 'AWS Canada', color: '#ff7c2a' },
+            { name: 'Tata Consultancy', color: '#b06aff' },
+            { name: 'ZenduIT', color: '#2affa0' },
+          ],
+        },
+        finance: {
+          name: 'Finance / Banking',
+          color: '#f5e642',
+          emoji: '📊',
+          personality:
+            'The Strategist — you make decisions with precision and nerve.',
+          superpower: 'Turning numbers into narratives',
+          companies: [
+            { name: 'RBC Private Banking', color: '#f5e642' },
+            { name: 'BMO', color: '#f5e642' },
+            { name: 'HOOPP', color: '#2affa0' },
+            { name: 'Canada Life', color: '#ff7c2a' },
+            { name: '407 ETR', color: '#b06aff' },
+          ],
+        },
+        consulting: {
+          name: 'Consulting / Business',
+          color: '#ff2d78',
+          emoji: '🎯',
+          personality: 'The Catalyst — you turn ambiguity into action plans.',
+          superpower: 'Making complex things simple and sellable',
+          companies: [
+            { name: 'People Ops Collective', color: '#ff2d78' },
+            { name: 'MetaCC Inc.', color: '#b06aff' },
+            { name: 'MyHunter', color: '#2affa0' },
+            { name: 'Tata Consultancy', color: '#00f0ff' },
+          ],
+        },
+        hr: {
+          name: 'HR / People Ops',
+          color: '#2affa0',
+          emoji: '🤝',
+          personality:
+            'The Empath — you see people as the most important data point.',
+          superpower: 'Building trust at scale',
+          companies: [
+            { name: 'People Ops Collective', color: '#2affa0' },
+            { name: 'Dilawri Group', color: '#f5e642' },
+            { name: 'Enterprise Mobility', color: '#ff7c2a' },
+            { name: 'Inkeros', color: '#ff2d78' },
+          ],
+        },
+        sales: {
+          name: 'Sales / Marketing',
+          color: '#ff7c2a',
+          emoji: '🔥',
+          personality: 'The Persuader — you read the room and move people.',
+          superpower: 'Turning conversations into opportunities',
+          companies: [
+            { name: 'Inkeros', color: '#ff7c2a' },
+            { name: 'Enterprise Mobility', color: '#2affa0' },
+            { name: 'AWS Canada', color: '#00f0ff' },
+            { name: 'Modelcom Inc.', color: '#b06aff' },
+          ],
+        },
+        healthcare: {
+          name: 'Healthcare / Sciences',
+          color: '#b06aff',
+          emoji: '🧬',
+          personality:
+            'The Guardian — you make high-stakes decisions with care.',
+          superpower: 'Precision under pressure',
+          companies: [
+            { name: 'SickKids Hospital', color: '#b06aff' },
+            { name: 'ACIR Clinic', color: '#2affa0' },
+            { name: 'Relationship Therapy', color: '#ff2d78' },
+            { name: 'HOOPP', color: '#f5e642' },
+          ],
+        },
+        engineering: {
+          name: 'Engineering / Operations',
+          color: '#2affa0',
+          emoji: '⚙️',
+          personality:
+            'The Builder — you design systems that outlast everyone.',
+          superpower: "Solving problems that don't exist yet",
+          companies: [
+            { name: '407 ETR', color: '#2affa0' },
+            { name: 'ZenduIT', color: '#00f0ff' },
+            { name: 'CTH Controls', color: '#f5e642' },
+            { name: 'Orient Depot', color: '#ff7c2a' },
+          ],
+        },
+      };
+
+      let currentQ = 0;
+      let scores = {
+        tech: 0,
+        finance: 0,
+        consulting: 0,
+        hr: 0,
+        sales: 0,
+        healthcare: 0,
+        engineering: 0,
+      };
+      let answers = [];
+
+      function showScreen(id) {
+        document
+          .querySelectorAll('.screen')
+          .forEach((s) => s.classList.remove('active'));
+        const el = document.getElementById(id);
+        el.classList.add('active');
+      }
+
+      function startQuiz() {
+        currentQ = 0;
+        scores = {
+          tech: 0,
+          finance: 0,
+          consulting: 0,
+          hr: 0,
+          sales: 0,
+          healthcare: 0,
+          engineering: 0,
+        };
+        answers = [];
+        showScreen('quizScreen');
+        renderQuestion();
+      }
+
+      function renderQuestion() {
+        const q = QUESTIONS[currentQ];
+        document.getElementById('qNum').textContent = currentQ + 1;
+        document.getElementById('qCategory').textContent = q.category;
+        document.getElementById('questionText').textContent = q.text;
+        document.getElementById('progressFill').style.width =
+          (currentQ / 5) * 100 + '%';
+
+        const grid = document.getElementById('optionsGrid');
+        const letters = ['A', 'B', 'C', 'D'];
+        grid.innerHTML = q.options
+          .map(
+            (opt, i) => `
+    <button class="option-btn" onclick="selectOption(${i})">
+      <span class="option-letter">${letters[i]}</span>${opt.label}
+    </button>
+  `,
+          )
+          .join('');
+
+        const nextBtn = document.getElementById('nextBtn');
+        nextBtn.disabled = true;
+        nextBtn.classList.remove('ready');
+        nextBtn.textContent = currentQ === 4 ? 'Reveal Result ✨' : 'Next →';
+      }
+
+      function selectOption(idx) {
+        document
+          .querySelectorAll('.option-btn')
+          .forEach((b) => b.classList.remove('selected'));
+        document.querySelectorAll('.option-btn')[idx].classList.add('selected');
+        answers[currentQ] = idx;
+
+        const nextBtn = document.getElementById('nextBtn');
+        nextBtn.disabled = false;
+        nextBtn.classList.add('ready');
+      }
+
+      function nextQuestion() {
+        const selectedIdx = answers[currentQ];
+        if (selectedIdx === undefined) return;
+
+        const fields = QUESTIONS[currentQ].options[selectedIdx].fields;
+        for (const [field, val] of Object.entries(fields)) {
+          scores[field] = (scores[field] || 0) + val;
+        }
+
+        currentQ++;
+        if (currentQ < 5) {
+          renderQuestion();
+        } else {
+          showThinking();
+        }
+      }
+
+      function showThinking() {
+        showScreen('thinkingScreen');
+        setTimeout(showResult, 2200);
+      }
+
+      function showResult() {
+        const topField = Object.entries(scores).sort(
+          (a, b) => b[1] - a[1],
+        )[0][0];
+        const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
+        const topScore = scores[topField];
+        const confidence = Math.min(
+          98,
+          Math.round(55 + (topScore / totalScore) * 100),
+        );
+
+        const field = FIELDS[topField];
+        showScreen('resultScreen');
+
+        const fieldEl = document.getElementById('resultField');
+        fieldEl.textContent = `${field.emoji} ${field.name}`;
+        fieldEl.style.color = field.color;
+
+        document.getElementById('resultPersonality').textContent =
+          field.personality;
+        document.getElementById('resultSuperpower').textContent =
+          field.superpower;
+        document.getElementById('accuracyPct').textContent = confidence + '%';
+
+        const fill = document.getElementById('accuracyFill');
+        fill.style.background = `linear-gradient(90deg, ${field.color}, var(--pink))`;
+        setTimeout(() => {
+          fill.style.width = confidence + '%';
+        }, 100);
+
+        const tagsEl = document.getElementById('resultCompanies');
+        tagsEl.innerHTML = field.companies
+          .map(
+            (c) => `
+    <span class="company-tag" style="color:${c.color}; border-color:${c.color}20; background:${c.color}10">
+      ${c.name}
+    </span>
+  `,
+          )
+          .join('');
+
+        launchConfetti(field.color);
+      }
+
+      function launchConfetti(color) {
+        const colors = [color, '#f5e642', '#ff2d78', '#00f0ff', '#2affa0'];
+        for (let i = 0; i < 40; i++) {
+          const el = document.createElement('div');
+          el.className = 'confetti-piece';
+          el.style.cssText = `
+      left: ${Math.random() * 100}vw;
+      top: -10px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      animation-duration: ${1.2 + Math.random() * 2}s;
+      animation-delay: ${Math.random() * 0.8}s;
+      width: ${6 + Math.random() * 8}px;
+      height: ${6 + Math.random() * 8}px;
+      border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+    `;
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 4000);
+        }
+      }
+
+      function resetQuiz() {
+        startQuiz();
+      }
+
+      function shareResult() {
+        const field = document.getElementById('resultField').textContent;
+        const pct = document.getElementById('accuracyPct').textContent;
+        const text = `The algorithm guessed my field: ${field} with ${pct} confidence 🎯 Try it yourself!`;
+        if (navigator.share) {
+          navigator.share({ title: "I'll Guess Your Job", text });
+        } else {
+          navigator.clipboard.writeText(text).then(() => {
+            const btn = document.querySelector('.btn-share');
+            btn.textContent = '✓ Copied to clipboard!';
+            setTimeout(() => (btn.textContent = 'Share Your Result 🔥'), 2000);
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
